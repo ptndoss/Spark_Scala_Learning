@@ -17,6 +17,6 @@ object WordCount {
     val words = lines.flatMap(line => line.split(" "))
 
     val wordCounts = words.countByValue();
-    for ((word, count) <- wordCounts) println(word + " : " + count)
+    for ((word, count) <- wordCounts) println(word + " : " + count);
   }
 }
