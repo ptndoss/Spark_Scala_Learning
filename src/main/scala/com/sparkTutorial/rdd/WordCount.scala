@@ -16,7 +16,7 @@ object WordCount {
     val lines = sc.textFile("in/word_count.text")
     val words = lines.flatMap(line => line.split(" "))
 
-    val wordCounts = words.countByValue()
+    val wordCounts = words.countByValue();
     for ((word, count) <- wordCounts) println(word + " : " + count)
   }
 }
