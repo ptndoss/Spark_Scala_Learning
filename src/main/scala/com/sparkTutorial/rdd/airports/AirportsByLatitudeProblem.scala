@@ -1,5 +1,11 @@
 package com.sparkTutorial.rdd.airports
 
+import java.util.logging.{Level, Logger}
+
+import com.sparkTutorial.commons.Utils
+import org.apache.spark.{SparkConf, SparkContext}
+import sun.misc.ObjectInputFilter.Config
+
 object AirportsByLatitudeProblem {
 
   def main(args: Array[String]) {
@@ -16,5 +22,21 @@ object AirportsByLatitudeProblem {
        "Tofino", 49.082222
        ...
      */
+    Logger.getLogger("AirportWithLatitude").setLevel(Level.ALL);
+    System.setProperty("hadoop.home.dir", "C:\\Hadoop");
+    val conf = new SparkConf().setAppName("AirportWithLatitude").setMaster("local[2]");
+    val sc = new SparkContext(conf);
+
+
+    val airports = sc.textFile("in/airports.text");
+    val airporstWithLatitude = airports.filter(line => line.split(Utils.COMMA_DELIMITER)(6).toFloat > 40);
+
+    val airportNameAndLat = airporstWithLatitude.map(
+      line => {
+        val splits = line.split(Utils.COMMA_DELIMITER)
+        splits(1) + ", " + splits(6)
+        })
+
+    airportNameAndLat.saveAsTextFile("out/airports_by_latitude.text");
   }
 }

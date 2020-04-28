@@ -1,8 +1,10 @@
 package com.sparkTutorial.rdd.airports
 
-import java.util.logging.{Level, Logger}
+
 
 import com.sparkTutorial.commons.Utils
+import org.apache.log4j.Logger
+import org.apache.log4j.Level
 import org.apache.spark.{SparkConf, SparkContext}
 
 object AirportsInUsaProblem {
@@ -20,7 +22,7 @@ object AirportsInUsaProblem {
        "Dowagiac Municipal Airport", "Dowagiac"
        ...
      */
-    Logger.getLogger("Airport").setLevel(Level.SEVERE);
+    Logger.getLogger("org").setLevel(Level.ERROR);
     System.setProperty("hadoop.home.dir", "C:\\Hadoop");
     val conf = new SparkConf().setAppName("Airport").setMaster("local[2]");
     val sc = new SparkContext(conf);
@@ -28,8 +30,8 @@ object AirportsInUsaProblem {
     val airports = sc.textFile("in/airports.text");
     val airportsInUSA = airports.filter(line => line.split(Utils.COMMA_DELIMITER)(3) == "\"United States\"");
 
-    val airportNameandCityName = airportsInUSA.map(line => {
-      val splits = line.split(Utils.COMMA_DELIMITER)
+    val airportNameandCityName = airportsInUSA.map(l => {
+      val splits = l.split(Utils.COMMA_DELIMITER)
       splits(1)+ ", "+splits(2)
     })
 
