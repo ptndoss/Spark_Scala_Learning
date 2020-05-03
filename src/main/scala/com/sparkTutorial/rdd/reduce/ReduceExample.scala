@@ -6,7 +6,7 @@ object ReduceExample {
 
   def main(args: Array[String]) {
     Logger.getLogger("org").setLevel(Level.OFF)
-    val conf = new SparkConf().setAppName("reduce").setMaster("local[*]")
+    val conf = new SparkConf().setAppName("reduce").setMaster("local[3]")
     val sc = new SparkContext(conf)
 
     val inputIntegers = List(1, 2, 3, 4, 5)

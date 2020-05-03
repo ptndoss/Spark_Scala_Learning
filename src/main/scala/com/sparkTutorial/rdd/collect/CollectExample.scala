@@ -6,7 +6,8 @@ import org.apache.spark.{SparkConf, SparkContext}
 
 object CollectExample {
   def main(args: Array[String]) {
-    Logger.getLogger("org").setLevel(Level.ERROR)
+    Logger.getLogger("org").setLevel(Level.ERROR);
+    System.setProperty("hadoop.home.dir", "C:\\Hadoop");
     val conf = new SparkConf().setAppName("collect").setMaster("local[*]")
     val sc = new SparkContext(conf)
 
