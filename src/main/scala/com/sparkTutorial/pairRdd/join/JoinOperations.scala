@@ -9,7 +9,7 @@ object JoinOperations {
         val conf = new SparkConf().setAppName("JoinOperations").setMaster("local[1]")
         val sc = new SparkContext(conf)
 
-        val ages = sc.parallelize(List(("Tom", 29),("John", 22)))
+        val ages = sc.parallelize(List(("Tom", 29),("John", 22),("JoHn", 23)))
         val addresses = sc.parallelize(List(("James", "USA"), ("John", "UK")))
 
         val join = ages.join(addresses)

@@ -1,7 +1,13 @@
 package com.sparkTutorial.sparkSql
 
+import org.apache.log4j.{Level, Logger}
+import org.apache.spark.sql
+import org.apache.spark.sql.SparkSession
+
 
 object HousePriceProblem {
+  val PricePerSqFt = "Price SQ Ft";
+  def main(args : Array[String]): Unit ={
 
         /* Create a Spark program to read the house data from in/RealEstate.csv,
            group by location, aggregate the average price per SQ Ft and sort by average price per SQ Ft.
@@ -21,7 +27,7 @@ object HousePriceProblem {
         7. Price/SQ.ft: price of the house per square foot.
         8. Status: type of sale. Thee types are represented in the dataset: Short Sale, Foreclosure and Regular.
 
-        Each field is comma separated.
+        Each field is comma separated."
 
         Sample output:
 
@@ -37,4 +43,28 @@ object HousePriceProblem {
         |................|.................|
         |................|.................|
          */
+  Logger.getLogger("org").setLevel(Level.ERROR)
+  val session = new sql.SparkSession.Builder().appName("HousePrice").master("local[2]").getOrCreate()
+
+  val dataFrameRead = session.read
+
+  val dataFrameResponse = dataFrameRead
+    .option("header", true)
+    .option("inferSchema", true)
+    .csv("in/RealEstate.csv")
+
+  dataFrameResponse.printSchema()
+
+  val locationData = dataFrameResponse.groupBy("location")
+    .avg(PricePerSqFt)
+    .orderBy("avg(Price SQ Ft)")
+//    val averagePrice = locationData.avg(PricePerSqFt)
+//    averagePrice.show()
+//    val  sortedPrice = averagePrice.sort("avg(Price SQ Ft)");
+    locationData.show()
+//    dataFrameResponse
+
+
+
+  }
 }
